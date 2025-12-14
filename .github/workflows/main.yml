@@ -37,7 +37,7 @@ jobs:
         mkdir coacd
         g++ -Wall -O2 -shared -o coacd/lib_coacd.dll CMakeFiles/_coacd.dir/public/coacd.cpp.o libcoacd.a ./_deps/openvdb-build/openvdb/openvdb/libopenvdb.a ./gnu_*_release/libtbb.a ./_deps/boost-build/libs/iostreams/libboost_iostreams.a ./_deps/boost-build/libs/random/libboost_random.a ./_deps/spdlog-build/libspdlog.a ./_deps/zlib-build/libz.a -lgomp -static -s
         cp -af /ucrt64/bin/libgomp-1.dll coacd
-        cp -af LICENSE coacd/LICENSE.CoACD
+        cp -af ../LICENSE coacd/LICENSE.CoACD
 
     - name: 'Upload Artifacts'
       uses: actions/upload-artifact@v4
