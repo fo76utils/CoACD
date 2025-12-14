@@ -25,7 +25,7 @@ jobs:
         msystem: UCRT64
         update: true
         cache: true
-        install: 'base-devel mingw-w64-ucrt-x86_64-gcc msys/cmake msys/p7zip'
+        install: 'base-devel mingw-w64-ucrt-x86_64-gcc msys/cmake msys/git msys/p7zip'
 
     - name: 'Build with cmake'
       shell: msys2 {0}
