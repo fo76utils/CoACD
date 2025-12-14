@@ -1,0 +1,47 @@
+name: Build CoACD
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_windows:
+    runs-on: windows-latest
+    name: Build MSYS2-CLANG64
+
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
+
+    - name: 'Setup MSYS2'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: CLANG64
+        update: true
+        cache: true
+        install: 'base-devel mingw-w64-clang-x86_64-gcc msys/cmake msys/git msys/p7zip'
+
+    - name: 'Build with cmake'
+      shell: msys2 {0}
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+        make || true
+        mkdir coacd
+        clang++ -Wall -O2 -shared -o coacd/lib_coacd.dll CMakeFiles/_coacd.dir/public/coacd.cpp.o libcoacd.a ./_deps/openvdb-build/openvdb/openvdb/libopenvdb.a ./gnu_15.2_cxx20_64_release/libtbb.a ./_deps/boost-build/libs/iostreams/libboost_iostreams.a ./_deps/boost-build/libs/random/libboost_random.a ./_deps/spdlog-build/libspdlog.a ./_deps/zlib-build/libz.a -lgomp
+        cp -af /ucrt64/bin/libgomp-1.dll coacd
+
+    - name: 'Upload Artifacts'
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-win
+        path: |
+          build/coacd
+
