@@ -1,4 +1,5 @@
 #include "shape.h"
+#include <stdint.h>
 
 namespace coacd
 {
@@ -156,4 +157,5 @@ namespace coacd
             q[3] /= mq;
         }
     }
+
 }
