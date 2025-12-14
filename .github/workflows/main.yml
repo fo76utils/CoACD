@@ -32,7 +32,6 @@ jobs:
       run: |
         mkdir build
         cd build
-        mv -f release/NifSkope.exe release/NifSkope_noavx2.exe
         cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
         make || true
         mkdir coacd
